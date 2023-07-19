@@ -1,23 +1,13 @@
 /** @format */
 
 import Image from "next/image";
+import { IUnderCar } from "@/types";
 
-const UnderCar = (transmission: any) => {
-  {
-    console.log(transmission);
-  }
-
+const UnderCar = ({ text, src }: IUnderCar) => {
   return (
     <div className="flex flex-col justify-center items-center gap-2">
-      <Image
-        src="/steering-wheel.svg"
-        width={20}
-        height={20}
-        alt="steering wheel"
-      />
-      <p className="text-[14px]">
-        {transmission === "a" ? "Automatic" : "Manual"}
-      </p>
+      <Image src={src} width={20} height={20} alt="icon" />
+      <p className="text-[14px]">{text}</p>
     </div>
   );
 };

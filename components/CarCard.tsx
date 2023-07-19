@@ -8,7 +8,7 @@ import Image from "next/image";
 import { ICarProps } from "@/types";
 import CustomButton from "./CustomButton";
 import { calculateCarRent } from "@/utils";
-import { UnderCar } from "@/components";
+import { CarDetails, UnderCar } from "@/components";
 
 interface ICardCarProps {
   car: ICarProps;
@@ -16,6 +16,8 @@ interface ICardCarProps {
 
 const CarCard = ({ car }: ICardCarProps) => {
   const { city_mpg, year, make, model, transmission, drive } = car;
+
+  const [isOpen, setIsOpen] = useState(false);
 
   const carRent = calculateCarRent(city_mpg, year);
 
@@ -46,13 +48,32 @@ const CarCard = ({ car }: ICardCarProps) => {
 
         <div className="relative flex w-full mt-2">
           <div className="flex group-hover:invisible w-full justify-between text-gray">
-            <UnderCar transmission={transmission} />
+            <UnderCar
+              text={transmission === "a" ? "Automatic" : "Manual"}
+              src={"/steering-wheel.svg"}
+            />
 
-            <UnderCar transmission={transmission} />
+            <UnderCar text={drive.toUpperCase()} src={"/tire.svg"} />
 
-            <UnderCar transmission={transmission} />
+            <UnderCar text={`${city_mpg} MPG`} src={"/gas.svg"} />
+          </div>
+
+          <div className="car-card__btn-container">
+            <CustomButton
+              title="View more"
+              containerStyles="w-full py-[16px] rounded-full bg-primary-blue"
+              textStyles="text-white text-[14px] leading-[17px] font-bold"
+              rightIcon="/right-arrow.svg"
+              handleClick={() => setIsOpen(true)}
+            />
           </div>
         </div>
+
+        <CarDetails
+          isOpen={isOpen}
+          closeModal={() => setIsOpen(false)}
+          car={car}
+        />
       </div>
     </div>
   );
